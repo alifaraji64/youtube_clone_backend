@@ -1,0 +1,9 @@
+POST http://localhost:5000/auth/register
+content-type: application/json
+
+{
+    "username": "alibtd0",
+    "email": "ali8@gmail.com",
+    "password":"155456",
+    "profileImage":"https://fsdf.com"
+}
