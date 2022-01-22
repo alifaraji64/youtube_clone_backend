@@ -2,16 +2,7 @@ import { Request, Response } from 'express';
 import { pool } from '../db/config';
 import { handleError } from '../utils/error';
 const mysql = require('mysql');
-import { initializeApp,cert } from 'firebase-admin/app';
-import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
-import { getStorage } from "firebase-admin/storage";
-initializeApp({
-  credential: cert(require('../../firebase_cred.json')),
-  storageBucket:'https://console.firebase.google.com/project/twitter-clone-8f3c6/storage/twitter-clone-8f3c6.appspot.com/files'
 
-});
-const db = getFirestore();
-const bucket = getStorage().bucket('ttt');
 class UserController {
 
     static fetchInfo(req:Request, res:Response){
