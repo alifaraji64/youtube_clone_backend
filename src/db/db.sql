@@ -23,5 +23,18 @@ INSERT INTO users(username,email,password,profileImage) VALUES(
 
 #DROP TABLE users;
 #DELETE FROM users WHERE userId>0;
-SELECT * FROM users;
+#SELECT * FROM users;
 #SELECT * FROM users WHERE email='ali@gmail.com' AND password='123456';
+
+/* CREATE TABLE videos(
+    videoId INT NOT NULL AUTO_INCREMENT,
+    videoUrl VARCHAR(255) NOT NULL,
+    thumbnailUrl VARCHAR(255) NOT NULL,
+    userId INT NOT NULL references users(userId),
+    uploadDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(videoId)
+); */
+
+#INSERT INTO videos (videoUrl,thumbnailUrl,userId) VALUES('video url','thumbnail url',80);
+SELECT * FROM videos;
+#DELETE FROM videos WHERE userId>0;
