@@ -11,5 +11,6 @@ router.post('/auth/login', AuthController.login);
 router.get('/userInfo', isAuthorized, UserController.fetchInfo);
 router.post('/addProfileImage', isAuthorized, UserController.addProfileImage);
 router.post('/addVideo', isAuthorized, VideoController.addVideo);
+router.get('/getVideos', isAuthorized, VideoController.getVideos);
 
 export{router}

@@ -34,12 +34,6 @@ class AuthController {
           }
           connection.destroy()
           const token = jwt.sign({email, uid:results.insertId},process.env.JWT_SECRET as string,{expiresIn:'10d'})
-          // jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsaTZAZ21haWwuY29tIiwiaWF0IjoxNjQyMjQyODI0LCJleHAiOjE2NDIzMjkyMjR9.BQoiu6Vg9HB8OagshiDvX0cIhE60ZDeRRwhKEOqFjUY',
-          // process.env.JWT_SECRET as string,(err,decoded)=>{
-          //   if (err) throw err;
-          //   console.log('decoded');
-          //   console.log(decoded);
-          // });
           return res.status(200).json({ token })
         }
       )
@@ -47,8 +41,8 @@ class AuthController {
   }
 
   static login(req:Request, res:Response){
-    const {email, password} = req.body;
-    if(!email || !password) return res.json({error: 'please fill all of the fields'})
+    const {username, password} = req.body;
+    if(!username || !password) return res.json({error: 'please fill all of the fields'})
     pool.getConnection(async (error: Error, connection: any) => {
       if (error) {
         return res.json({
@@ -56,7 +50,7 @@ class AuthController {
         })
       }
       let sql =
-        `SELECT email,userId FROM users WHERE email=${mysql.escape(email)} AND password=${mysql.escape(password)}`
+        `SELECT email,userId FROM users WHERE username=${mysql.escape(username)} AND password=${mysql.escape(password)}`
       connection.query(
         sql,
         (error2: any, results: any, fields: any) => {
@@ -67,10 +61,9 @@ class AuthController {
           //if we don't have any results returned
           if(!results.length) return res.json({error:"email or password is incorrect"})
           const {email, userId} = results[0];
-          const token = jwt.sign({email},process.env.JWT_SECRET as string,{expiresIn:'1h'});
+          const token = jwt.sign({email, uid:userId},process.env.JWT_SECRET as string,{expiresIn:'1h'});
           connection.destroy();
-          return res.json({ token, userData: { email: email,userId }});
-
+          return res.json({ token });
         }
       )
     })
