@@ -1,5 +1,6 @@
 import {Request,Response} from "express"
 import { parse } from "path";
+import { json } from "stream/consumers";
 import { pool } from '../db/config';
 import { handleError } from "../utils/error";
 const mysql = require('mysql');
@@ -11,13 +12,10 @@ class VideoController{
             if(error) return res.status(500).json({error: 'some unknown error occured while connecting to database'});
 
             const sql = `INSERT INTO videos (videoUrl,thumbnailUrl,userId) VALUES(${mysql.escape(videoUrl)},${mysql.escape(thumbnailUrl)},${mysql.escape(userId)})`
-
-            connection.query(sql,(error2:any,results:any,fields:any)=>{
-                if(error2) return res.status(401).json({ error: handleError(error2.sqlMessage, error2.errno) })
-                connection.destroy();
-                return res.sendStatus(200);
+            connection.query(sql,(error:any,results:any,fields:any)=>{
+                if(error) return res.status(401).json({ error: handleError(error.sqlMessage, error.errno) });
+                return res.status(200).json({videoId:results.insertId,videoUrl,thumbnailUrl,userId});
             })
-
         })
     }
 
