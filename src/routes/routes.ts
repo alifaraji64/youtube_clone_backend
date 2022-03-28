@@ -1,4 +1,5 @@
 import Router from "express";
+import { Request,Response }  from "express";
 import { AuthController } from "../controllers/auth.controller";
 import { UserController } from "../controllers/user.controller";
 import { VideoController } from "../controllers/video.controller";

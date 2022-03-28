@@ -7,12 +7,10 @@ function isAuthorized(req:Request,res:Response,next:Function){
           process.env.JWT_SECRET as string,(err,decoded:any)=>{
             if (err) return res.status(401).json({error:'token is invalid'});
             const {email,uid} = decoded;
-            console.log(decoded);
-
             res.locals.email=email;
             res.locals.uid=uid.toString();
             next();
           });
 
 }
-export {isAuthorized}
+export { isAuthorized }

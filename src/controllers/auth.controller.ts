@@ -8,8 +8,6 @@ class AuthController {
   static register (req: Request, res: Response) {
     const { username, email, password } = req.body;
     console.log(req.body);
-
-
     //validate params
     if (!username || !email || !password)
       return res.status(401).json({ error: 'please fill all of the fields' })
@@ -19,6 +17,7 @@ class AuthController {
 
     pool.getConnection(async (error: Error, connection: any) => {
       if (error) {
+        console.log(error);
         return res.status(500).json({
           error: 'some unknown error occured while connecting to database'
         })
@@ -61,7 +60,7 @@ class AuthController {
           //if we don't have any results returned
           if(!results.length) return res.status(401).json({error:"email or password is incorrect"})
           const {email, userId} = results[0];
-          const token = jwt.sign({email, uid:userId},process.env.JWT_SECRET as string,{expiresIn:'1h'});
+          const token = jwt.sign({email, uid:userId},process.env.JWT_SECRET as string,{expiresIn:'10d'});
           connection.destroy();
           return res.json({ token });
         }
